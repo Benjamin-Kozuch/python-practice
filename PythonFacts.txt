@@ -1,0 +1,2 @@
+String are immutable. Everytime you edit a string you're creating a new one in memory.
+
