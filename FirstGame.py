@@ -1,32 +1,54 @@
+#With inspiration from http://www.nerdparadise.com/programming/pygame/part1
+
 import pygame
 pygame.init()
 
 #Makes a black screen pop-up
-screen = pygame.display.set_mode((1000, 300))  # w,h
+screen = pygame.display.set_mode((600, 400))  # w,h
+
+#Need this to change the F/S frames per second later.
+clock = pygame.time.Clock()
+
+#Ball
+x_ball = 570
+y_ball = 30
+ball_x_direction = -1 # (1) = right and (-1) = left
+ball_y_direction = 1
+ball_speed = 5
+
+#Paddle
+x_paddle = 30
+y_paddle = 30
+
 
 done = False
-is_blue = True
-x = 30
-y = 30
-
-
 while not done:
     for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-            is_blue = not is_blue
+   
         if event.type == pygame.QUIT:
             done = True
 
-    pressed = pygame.key.get_pressed()
-    if pressed[pygame.K_UP]: y -= 3
-    if pressed[pygame.K_DOWN]: y += 3
-    if pressed[pygame.K_LEFT]: x -= 3
-    if pressed[pygame.K_RIGHT]: x += 3
+    
+    if pygame.key.get_pressed()[pygame.K_UP]: y_paddle -= 3
+    if pygame.key.get_pressed()[pygame.K_DOWN]: y_paddle += 3
+    
+    x_ball += ball_speed*ball_x_direction
+    y_ball += ball_speed*ball_y_direction
+   
 
-    if is_blue: color = (0, 128, 255)
-    else: color = (255, 100, 0)
-    pygame.draw.rect(screen, color, pygame.Rect(x, y, 60, 60))
+
+
+
+    screen.fill((255, 255, 255)) #without this the moving around square would leave a trailing tail.
+    #if is_blue: color = (0, 128, 255)
+    #else: color = (255, 100, 0)
+    pygame.draw.rect(screen, (0, 128, 255), pygame.Rect(x_ball, y_ball, 10, 10))
+    pygame.draw.rect(screen, (0, 128, 255), pygame.Rect(x_paddle, y_paddle, 10, 60))
+    pygame.draw.rect(screen, (0, 128, 255), pygame.Rect(560, 0, 10, 400)) #right side
+
 
     pygame.display.flip()
+    clock.tick(120)
+
 
 
